@@ -1,0 +1,6 @@
+.idea/
+.git/
+.gitignore
+.editorconfig
+test/
+README.md
