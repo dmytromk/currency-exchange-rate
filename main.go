@@ -11,8 +11,6 @@ import (
 )
 
 func main() {
-	fmt.Println(api.GetCurrentNBURate())
-
 	r := chi.NewRouter()
 
 	r.Use(middleware.Logger)

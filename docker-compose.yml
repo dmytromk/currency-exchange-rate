@@ -1,0 +1,16 @@
+services:
+  database:
+    container_name: database
+    image: 'docker.io/postgres:latest'
+    environment:
+      POSTGRES_USER: "test"
+      POSTGRES_PASSWORD: "test"
+      POSTGRES_DB: "database"
+    ports:
+      - 15432:5432
+
+  api:
+    container_name: api
+    build: .
+    ports:
+      - 3000:3000
