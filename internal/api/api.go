@@ -2,9 +2,11 @@ package api
 
 import (
 	"currency_exchange_rate/internal/database"
+	"encoding/binary"
 	"encoding/json"
 	"fmt"
 	"github.com/lib/pq"
+	"math"
 	"net/http"
 	"net/mail"
 )
@@ -19,7 +21,24 @@ func (env *Env) SendEmails() {
 		fmt.Println(err)
 		return
 	}
-	fmt.Println(users)
+
+	rate, err := GetCurrentNBURate()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	for _, user := range users {
+		to := []string{user.Email}
+
+		var msg []byte
+		binary.LittleEndian.PutUint32(msg[:], math.Float32bits(rate))
+
+		err := sendEmail(to, msg)
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
 }
 
 func (env *Env) AddUser(w http.ResponseWriter, r *http.Request) {
