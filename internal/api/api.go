@@ -4,6 +4,7 @@ import (
 	"currency_exchange_rate/internal/database"
 	"encoding/binary"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/lib/pq"
 	"math"
@@ -15,7 +16,7 @@ type Env struct {
 	Users database.UserModel
 }
 
-func (env *Env) SendEmails() {
+func (env *Env) SendEmails(w http.ResponseWriter, r *http.Request) {
 	users, err := env.Users.GetAllUsers()
 	if err != nil {
 		fmt.Println(err)
@@ -31,7 +32,7 @@ func (env *Env) SendEmails() {
 	for _, user := range users {
 		to := []string{user.Email}
 
-		var msg []byte
+		msg := make([]byte, 4)
 		binary.LittleEndian.PutUint32(msg[:], math.Float32bits(rate))
 
 		err := sendEmail(to, msg)
@@ -57,9 +58,10 @@ func (env *Env) AddUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	err = env.Users.AddUser(database.User{Email: user.Email})
-	pqErr := err.(*pq.Error)
+
 	// check if "unique" constraint is violated
-	if pqErr.Code == "23505" {
+	var pqErr *pq.Error
+	if errors.As(err, &pqErr) && pqErr.Code == "23505" {
 		http.Error(w, http.StatusText(409), 409)
 		return
 	}
