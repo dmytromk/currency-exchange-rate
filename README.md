@@ -7,7 +7,7 @@ This is a REST API API application for currency exchange rate (USD to UAH). It a
     1. GET /rate 
     2. POST /subscribe (expects "email: {body}"  payload)
     3. POST /test_email (test endpoint for sending all emails)
-2. Sending email with current USD to UAH exchange rate to all subscribers each day (12 PM UTC time)
+2. Sending email with current USD to UAH exchange rate to all subscribers each day (midnight UTC)
 
 ## Local Deployment
 

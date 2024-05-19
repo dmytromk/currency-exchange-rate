@@ -28,7 +28,7 @@ func main() {
 
 	utc, _ := time.LoadLocation("")
 	cronHandler := cron.NewWithLocation(utc)
-	cronHandler.AddFunc("0 12 * * * *", env.SendEmails)
+	cronHandler.AddFunc("@daily", env.SendEmails)
 	cronHandler.Start()
 	select {}
 }
