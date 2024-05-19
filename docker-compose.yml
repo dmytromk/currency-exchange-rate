@@ -11,6 +11,8 @@ services:
 
   api:
     container_name: api
-    build: .
+    build:
+      context: .
+      dockerfile: ./cmd/api-server/Dockerfile
     ports:
       - 3000:3000
