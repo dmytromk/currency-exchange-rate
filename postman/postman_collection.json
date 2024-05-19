@@ -1,0 +1,128 @@
+{
+	"info": {
+		"_postman_id": "9a714d54-edba-4bfe-8f24-2fb8530c3caf",
+		"name": "currency-exchange",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28224128"
+	},
+	"item": [
+		{
+			"name": "nbu",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://bank.gov.ua/NBUStatService/v1/statdirectory/dollar_info?json",
+					"protocol": "https",
+					"host": [
+						"bank",
+						"gov",
+						"ua"
+					],
+					"path": [
+						"NBUStatService",
+						"v1",
+						"statdirectory",
+						"dollar_info"
+					],
+					"query": [
+						{
+							"key": "json",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "rate",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/rate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "subscribe",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"notify@mysite.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/subscribe",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"subscribe"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test_send",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"test\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/test_email",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"test_email"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
