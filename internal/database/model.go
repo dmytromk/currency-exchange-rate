@@ -1,11 +1,11 @@
-package db
+package database
 
 import (
 	"database/sql"
 )
 
 type User struct {
-	Email string
+	Email string `json:"email"`
 }
 
 type UserModel struct {
@@ -39,7 +39,7 @@ func AllUsers(u UserModel) ([]User, error) {
 }
 
 func AddUser(user User, u UserModel) error {
-	result, err := u.DB.Exec("INSERT INTO users (email)", user.Email)
+	result, err := u.DB.Exec("INSERT INTO users (email) VALUES ($1)", user.Email)
 	if err != nil {
 		return err
 	}
