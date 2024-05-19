@@ -33,5 +33,9 @@ func main() {
 	r.Get("/rate", env.GetCurrentRate)
 	r.Post("/subscribe", env.AddUser)
 
+	// test endpoint for sending emails
+	// should be removed from public later
+	r.Post("/test_email", func(w http.ResponseWriter, r *http.Request) { env.SendEmails() })
+
 	http.ListenAndServe(":3000", r)
 }
