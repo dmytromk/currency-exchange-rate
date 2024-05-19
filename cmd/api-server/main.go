@@ -3,18 +3,22 @@ package main
 import (
 	"currency_exchange_rate/internal/api"
 	"currency_exchange_rate/internal/database"
-	"database/sql"
-	"github.com/go-chi/chi/v5"
+	"github.com/joho/godotenv"
 	"log"
-
 	"net/http"
 
+	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	_ "github.com/lib/pq"
 )
 
 func main() {
-	db, err := sql.Open("postgres", "user=postgres dbname=example sslmode=disable")
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	db, err := database.OpenConnection()
 	if err != nil {
 		log.Fatal(err)
 	}
