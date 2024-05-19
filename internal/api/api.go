@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"net/mail"
 )
 
 type Env struct {
@@ -13,16 +14,20 @@ type Env struct {
 
 func (env *Env) AddUser(w http.ResponseWriter, r *http.Request) {
 	var user database.User
+
 	err := json.NewDecoder(r.Body).Decode(&user)
-
-	email := user.Email
-
-	if email == "" {
+	if err != nil {
 		http.Error(w, http.StatusText(400), 400)
 		return
 	}
 
-	err = env.Users.AddUser(database.User{Email: email})
+	_, err = mail.ParseAddress(user.Email)
+	if err != nil {
+		http.Error(w, http.StatusText(400), 400)
+		return
+	}
+
+	err = env.Users.AddUser(database.User{Email: user.Email})
 	if err != nil {
 		http.Error(w, http.StatusText(400), 400)
 		return
@@ -30,7 +35,7 @@ func (env *Env) AddUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func (env *Env) GetCurrentRate(w http.ResponseWriter, r *http.Request) {
-	rate, err := getCurrentNBURate()
+	rate, err := GetCurrentNBURate()
 
 	if err != nil {
 		http.Error(w, http.StatusText(400), 400)

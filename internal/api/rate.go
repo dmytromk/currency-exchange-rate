@@ -2,7 +2,6 @@ package api
 
 import (
 	"encoding/json"
-	"io"
 	"net/http"
 	"time"
 )
@@ -15,22 +14,16 @@ type ResponseNBU struct {
 	ExchangeDate string  `json:"exchangedate"`
 }
 
-func getCurrentNBURate() (float32, error) {
+func GetCurrentNBURate() (float32, error) {
 	var myClient = &http.Client{Timeout: 10 * time.Second}
-
-	response, err := myClient.Get("https://bank.gov.ua/NBUStatService/v1/statdirectory/dollar_info?json")
-
-	if err != nil {
-		return -1, err
-	}
-
-	responseData, err := io.ReadAll(response.Body)
-	if err != nil {
-		return -1, err
-	}
-
 	var result []ResponseNBU
-	err = json.Unmarshal(responseData, &result)
+
+	r, err := myClient.Get("https://bank.gov.ua/NBUStatService/v1/statdirectory/dollar_info?json")
+	if err != nil {
+		return -1, err
+	}
+
+	err = json.NewDecoder(r.Body).Decode(&result)
 	if err != nil {
 		return -1, err
 	}
