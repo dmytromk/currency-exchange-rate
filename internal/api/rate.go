@@ -15,7 +15,7 @@ type ResponseNBU struct {
 	ExchangeDate string  `json:"exchangedate"`
 }
 
-func GetCurrentNBURate() (float32, error) {
+func getCurrentNBURate() (float32, error) {
 	var myClient = &http.Client{Timeout: 10 * time.Second}
 
 	response, err := myClient.Get("https://bank.gov.ua/NBUStatService/v1/statdirectory/dollar_info?json")

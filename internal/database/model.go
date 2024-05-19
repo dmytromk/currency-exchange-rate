@@ -38,7 +38,7 @@ func AllUsers(u UserModel) ([]User, error) {
 	return users, nil
 }
 
-func AddUser(user User, u UserModel) error {
+func (u UserModel) AddUser(user User) error {
 	result, err := u.DB.Exec("INSERT INTO users (email) VALUES ($1)", user.Email)
 	if err != nil {
 		return err
