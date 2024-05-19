@@ -4,6 +4,7 @@ import (
 	"currency_exchange_rate/internal/database"
 	"encoding/json"
 	"fmt"
+	"github.com/lib/pq"
 	"net/http"
 	"net/mail"
 )
@@ -28,6 +29,12 @@ func (env *Env) AddUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	err = env.Users.AddUser(database.User{Email: user.Email})
+	pqErr := err.(*pq.Error)
+	// check if "unique" constraint is violated
+	if pqErr.Code == "23505" {
+		http.Error(w, http.StatusText(409), 409)
+		return
+	}
 	if err != nil {
 		http.Error(w, http.StatusText(400), 400)
 		return
