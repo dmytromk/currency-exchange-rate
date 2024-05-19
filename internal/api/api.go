@@ -13,6 +13,15 @@ type Env struct {
 	Users database.UserModel
 }
 
+func (env *Env) SendEmails() {
+	users, err := env.Users.GetAllUsers()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(users)
+}
+
 func (env *Env) AddUser(w http.ResponseWriter, r *http.Request) {
 	var user database.User
 
