@@ -2,12 +2,10 @@ package api
 
 import (
 	"currency_exchange_rate/internal/database"
-	"encoding/binary"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"github.com/lib/pq"
-	"math"
 	"net/http"
 	"net/mail"
 )
@@ -16,7 +14,7 @@ type Env struct {
 	Users database.UserModel
 }
 
-func (env *Env) SendEmails(w http.ResponseWriter, r *http.Request) {
+func (env *Env) SendEmails() {
 	users, err := env.Users.GetAllUsers()
 	if err != nil {
 		fmt.Println(err)
@@ -30,12 +28,7 @@ func (env *Env) SendEmails(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for _, user := range users {
-		to := []string{user.Email}
-
-		msg := make([]byte, 4)
-		binary.LittleEndian.PutUint32(msg[:], math.Float32bits(rate))
-
-		err := sendEmail(to, msg)
+		err := sendEmail(user.Email, rate)
 		if err != nil {
 			fmt.Println(err)
 		}
