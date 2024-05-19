@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/lib/pq"
+	"log"
 	"net/http"
 	"net/mail"
 )
@@ -17,20 +18,20 @@ type Env struct {
 func (env *Env) SendEmails() {
 	users, err := env.Users.GetAllUsers()
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return
 	}
 
 	rate, err := GetCurrentNBURate()
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return
 	}
 
 	for _, user := range users {
 		err := sendEmail(user.Email, rate)
 		if err != nil {
-			fmt.Println(err)
+			log.Println(err)
 		}
 	}
 }
