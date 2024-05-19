@@ -38,9 +38,6 @@ services:
       dockerfile: ./cmd/api-server/Dockerfile
     ports:
       - 3000:3000
-    depends_on:
-      database:
-        condition: service_healthy
 
   scheduler:
     container_name: scheduler
@@ -49,6 +46,3 @@ services:
       dockerfile: ./cmd/email-scheduler/Dockerfile
     ports:
       - 3001:3000
-    depends_on:
-      database:
-        condition: service_healthy
