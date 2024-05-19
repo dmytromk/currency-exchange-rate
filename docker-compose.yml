@@ -38,3 +38,11 @@ services:
       dockerfile: ./cmd/api-server/Dockerfile
     ports:
       - 3000:3000
+
+  scheduler:
+    container_name: scheduler
+    build:
+      context: .
+      dockerfile: ./cmd/email-scheduler/Dockerfile
+    ports:
+      - 3000:3000
