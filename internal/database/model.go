@@ -12,7 +12,7 @@ type UserModel struct {
 	DB *sql.DB
 }
 
-func AllUsers(u UserModel) ([]User, error) {
+func (u UserModel) GetAllUsers() ([]User, error) {
 	rows, err := u.DB.Query("SELECT * FROM users")
 	if err != nil {
 		return nil, err
@@ -22,9 +22,12 @@ func AllUsers(u UserModel) ([]User, error) {
 	var users []User
 
 	for rows.Next() {
+		// temp var for id in db
+		// could have used email as primary key, but decided against it
+		var id string
 		var user User
 
-		err := rows.Scan(&user.Email)
+		err := rows.Scan(&id, &user.Email)
 		if err != nil {
 			return nil, err
 		}
